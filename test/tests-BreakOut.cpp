@@ -117,8 +117,8 @@ TEST_CASE("Ball Class Assertions") {
 	BreakOut game;
 	game.OnUserCreate();
 	auto &ball = game.ball;
-	SECTION("Default position at (0,0)") {
-		REQUIRE(ball->position() == olc::vf2d(0.0f, 0.0f));
+	SECTION("Default position at (12,15)") {
+		REQUIRE(ball->position() == olc::vf2d(12.0f, 15.0f));
 	}
 	SECTION("Default direction is (0,0) vector") {
 		REQUIRE(ball->dir() == olc::vf2d(0.0f, 0.0f));

@@ -17,7 +17,6 @@ Ball::update()
 void
 Ball::draw(olc::PixelGameEngine *pge)
 {
-	auto vBlockSize = olc::vi2d(16, 16);	
 	pge->DrawSprite(position() * vBlockSize, sprBall.get());
 }
 

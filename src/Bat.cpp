@@ -23,7 +23,6 @@ Bat::update()
 void
 Bat::draw(olc::PixelGameEngine *game)
 {
-	auto vBlockSize = olc::vi2d(16, 16);	
 	game->DrawSprite(position() * vBlockSize, sprBat.get());
 }
 

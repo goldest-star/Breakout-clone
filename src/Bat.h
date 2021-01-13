@@ -16,6 +16,7 @@ private:
 	float width_ = 4.0f;
 	float speed_ = 20.0f;
 	std::unique_ptr<olc::Sprite> sprBat;
+	olc::vi2d vBlockSize = { 16, 16 };	
 	TileMap *map;
 };
 

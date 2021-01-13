@@ -18,5 +18,6 @@ private:
 	float radius_ = 5.5f;
 	float speed_ = 20.0f;
 	std::unique_ptr<olc::Sprite> sprBall;
+	olc::vi2d vBlockSize = { 11, 11 };	
 };
 #endif /* ifndef BALL_H */

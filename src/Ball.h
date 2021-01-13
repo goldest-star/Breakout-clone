@@ -8,7 +8,6 @@
 
 class Ball : public Entity {
 public:
-	Ball();
 	Ball(TileMap *m);
 	void update() override;
 	void draw(olc::PixelGameEngine *) override;

@@ -3,11 +3,13 @@
 
 #include "../include/olcPixelGameEngine.h"
 #include "Entity.h"
+#include "TileMap.h"
 #include <memory>
 
 class Ball : public Entity {
 public:
 	Ball();
+	Ball(TileMap *m);
 	void update() override;
 	void draw(olc::PixelGameEngine *) override;
 	olc::vf2d dir() const;
@@ -19,5 +21,6 @@ private:
 	float speed_ = 20.0f;
 	std::unique_ptr<olc::Sprite> sprBall;
 	olc::vi2d vBlockSize = { 11, 11 };	
+	TileMap *map;
 };
 #endif /* ifndef BALL_H */

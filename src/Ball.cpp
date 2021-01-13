@@ -9,6 +9,12 @@ Ball::Ball()
 	sprBall = std::make_unique<olc::Sprite>("../assets/gfx/ballGrey_11x11.png");
 }
 
+Ball::Ball(TileMap *m) : map(m)
+{
+	position() = { 12, 15 };
+	sprBall = std::make_unique<olc::Sprite>("../assets/gfx/ballGrey_11x11.png");
+}
+
 void
 Ball::update()
 {

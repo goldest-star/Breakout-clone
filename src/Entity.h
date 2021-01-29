@@ -2,15 +2,16 @@
 #define ENTITY_H
 
 #include "../include/olcPixelGameEngine.h"
-#include "TileMap.h"
 
+// Abstract class
 class Entity {
 public:
+	Entity(olc::PixelGameEngine &game) : game_(game) {}
 	virtual ~Entity() = default;
-	virtual void update() = 0;
-	virtual void draw(olc::PixelGameEngine *game) = 0;
-	olc::vf2d& position() { return position_; } 
-private:
-	olc::vf2d position_ = { 0, 0 };
+	virtual void update(float fElapsedTime) = 0;
+	virtual void draw() = 0;
+	olc::PixelGameEngine& getGameEngine() { return game_; }
+protected:
+	olc::PixelGameEngine &game_;
 };
 #endif /* ifndef ENTITY_H */

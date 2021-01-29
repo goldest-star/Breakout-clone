@@ -115,13 +115,13 @@ Blocks::end()
 }
 	
 Blocks::const_iterator 
-Blocks::cbegin()
+Blocks::cbegin() const
 {
 	return tileMap.cbegin();
 }
 	
 Blocks::const_iterator 
-Blocks::cend()
+Blocks::cend() const
 {
 	return tileMap.cend();
 }

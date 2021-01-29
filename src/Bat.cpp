@@ -1,39 +1,39 @@
 #include "Bat.h"
-#include <memory>
+#include "Blocks.h"
+#include <memory> 
 
-Bat::Bat(TileMap *m) : map(m)
+Bat::Bat(olc::PixelGameEngine &game, Blocks &blocks) : game_(game), blocks_(blocks)
 {
 	sprBat = std::make_unique<olc::Sprite>("../assets/gfx/paddleRed_64x16.png");
-	position() = olc::vi2d(10, 29);
-	update();
+	position_ = olc::vi2d((blocks_.width() / 2.0f) - (width_ / 2.0f), blocks_.height() - 1);
+	width_ = sprBat->width / float(blocks_.blockSize().x);
+	height_ = sprBat->height / float(blocks_.blockSize().x);
+	speed_ = 20.0f;
 }
 
 void
-Bat::update()
+Bat::update(float fElapsedTime)
 {
-	// clear the bat's track in tile map 
-	auto y = position().y;
-	for (size_t x = 1; x < map->width() - 1; ++x)
-		map->blocks[y * map->width() + x] = 0;
-	// update tile map with bat's new position
-	for (auto x = position().x; x < position().x + width(); ++x)
-		map->blocks[y * map->width() + x] = 11;
+	// Handle user input
+	if (game_.GetKey(olc::Key::LEFT).bHeld || game_.GetKey(olc::Key::A).bHeld)
+		position_.x -= speed_ * fElapsedTime;
+	if (game_.GetKey(olc::Key::RIGHT).bHeld || game_.GetKey(olc::Key::D).bHeld)
+		position_.x += speed_ * fElapsedTime;
+
+	 // Limit bat movement 
+	if (float leftWallEdge = 1.0f; position_.x < leftWallEdge)
+		position_.x = leftWallEdge;
+	if (float rightWallEdge = blocks_.width() - 1.0f; position_.x + width_ > rightWallEdge)
+		position_.x = rightWallEdge - width_;
 }
 
 void
-Bat::draw(olc::PixelGameEngine *game)
+Bat::draw()
 {
-	game->DrawSprite(position() * vBlockSize, sprBat.get());
+	game_.DrawSprite(position_ * blocks_.blockSize(), sprBat.get());
 }
 
-float
-Bat::width() const
-{
-	return width_;
-}
-
-float
-Bat::speed() const
-{
-	return speed_;
-}
+olc::vf2d Bat::position() { return position_; }
+float Bat::width() const { return width_; }
+float Bat::height() const { return height_; }
+float Bat::speed() const { return speed_; }

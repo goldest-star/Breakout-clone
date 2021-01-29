@@ -1,9 +1,9 @@
-#include "TileMap.h"
+#include "Blocks.h"
 #include <iostream>
 #include <memory>
 #include <vector>
 
-std::vector<int> lvl1 = {
+std::vector<int> lvl1{
 	10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,
 	10, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,10, 
 	10, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,10, 
@@ -36,44 +36,43 @@ std::vector<int> lvl1 = {
 	10, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,10, 
 };
 
-TileMap::TileMap()
+Blocks::Blocks()
 {
 	loadMap(lvl1);
 	sprTile = std::make_unique<olc::Sprite>("../assets/gfx/tiles_16x16.png"); 
 }
 
-TileMap:: TileMap(const std::vector<int> &map) : blocks(map) {}
+Blocks:: Blocks(const std::vector<int> &map) : tileMap(map) {}
 
 void
-TileMap::loadMap(const std::vector<int> &map)
+Blocks::loadMap(const std::vector<int> &map)
 {
-	blocks = map;
+	tileMap = map;
 }
 
 void
-TileMap::drawMap(olc::PixelGameEngine *game)
+Blocks::drawMap(olc::PixelGameEngine *game)
 {
-
-	for (size_t y = 0; y < height_; ++y) {
-		for (size_t x = 0; x < width_; ++x) {
-			auto tileType = blocks[y * width_ + x];
+	for (size_t y{0}; y < height_; ++y) {
+		for (size_t x{0}; x < width_; ++x) {
+			auto tileType{tileMap[y * width_ + x]};
 			switch(tileType) {
 			case 0:
 				break; // do nothing
 			case 10:
-				game->DrawPartialSprite(olc::vi2d(x,y) * vBlockSize, sprTile.get(), olc::vi2d(0, 0) * vBlockSize, vBlockSize);
+				game->DrawPartialSprite(olc::vi2d(x,y) * blockSize_, sprTile.get(), olc::vi2d(0, 0) * blockSize_, blockSize_);
 				break;
 			case 1:
-				game->DrawPartialSprite(olc::vi2d(x,y) * vBlockSize, sprTile.get(), olc::vi2d(4, 0) * vBlockSize, vBlockSize);
+				game->DrawPartialSprite(olc::vi2d(x,y) * blockSize_, sprTile.get(), olc::vi2d(4, 0) * blockSize_, blockSize_);
 				break;
 			case 2:
-				game->DrawPartialSprite(olc::vi2d(x,y) * vBlockSize, sprTile.get(), olc::vi2d(5, 0) * vBlockSize, vBlockSize);
+				game->DrawPartialSprite(olc::vi2d(x,y) * blockSize_, sprTile.get(), olc::vi2d(5, 0) * blockSize_, blockSize_);
 				break;
 			case 3:
-				game->DrawPartialSprite(olc::vi2d(x,y) * vBlockSize, sprTile.get(), olc::vi2d(3, 0) * vBlockSize, vBlockSize);
+				game->DrawPartialSprite(olc::vi2d(x,y) * blockSize_, sprTile.get(), olc::vi2d(3, 0) * blockSize_, blockSize_);
 				break;
 			case 4:
-				game->DrawPartialSprite(olc::vi2d(x,y) * vBlockSize, sprTile.get(), olc::vi2d(2, 0) * vBlockSize, vBlockSize);
+				game->DrawPartialSprite(olc::vi2d(x,y) * blockSize_, sprTile.get(), olc::vi2d(2, 0) * blockSize_, blockSize_);
 				break;
 			}
 		}
@@ -83,10 +82,46 @@ TileMap::drawMap(olc::PixelGameEngine *game)
 
 
 size_t
-TileMap::width() const { return width_; }
+Blocks::width() const { return width_; }
 
 size_t
-TileMap::height() const { return height_; }
+Blocks::height() const { return height_; }
 
 size_t
-TileMap::size() const { return blocks.size(); }
+Blocks::size() const { return tileMap.size(); }
+
+olc::vi2d
+Blocks::blockSize()
+{
+	return blockSize_;
+}
+
+int&
+Blocks::operator[](const size_type index)
+{
+	return tileMap[index];
+}
+
+Blocks::iterator
+Blocks::begin()
+{
+	return tileMap.begin();
+}
+
+Blocks::iterator 
+Blocks::end()
+{
+	return tileMap.end();
+}
+	
+Blocks::const_iterator 
+Blocks::cbegin()
+{
+	return tileMap.cbegin();
+}
+	
+Blocks::const_iterator 
+Blocks::cend()
+{
+	return tileMap.cend();
+}

@@ -2,24 +2,44 @@
 #define BALL_H
 
 #include "../include/olcPixelGameEngine.h"
-#include "Entity.h"
-#include "TileMap.h"
 #include <memory>
+#include <random>
 
-class Ball : public Entity {
+class Blocks;
+class Bat;
+class Ball {
 public:
-	Ball(TileMap *m);
-	void update() override;
-	void draw(olc::PixelGameEngine *) override;
-	olc::vf2d dir() const;
-	float radius() const;
-	float speed() const;
+	Ball(olc::PixelGameEngine &game, Blocks &blocks, Bat &bat);
+	void update(float fElapsedTime);
+	void draw();
+	bool isOutOfBounds = false;
+	void reset(const olc::vf2d &postion);
+	void reset(float x, float y);
 private:
-	olc::vf2d direction = { 0.0f, 0.0f };
-	float radius_ = 5.5f;
-	float speed_ = 20.0f;
-	std::unique_ptr<olc::Sprite> sprBall;
-	olc::vi2d vBlockSize = { 11, 11 };	
-	TileMap *map;
+	olc::vf2d direction_{ 0.0f, 0.0f };
+	olc::vf2d position_{ 0.0f, 0.0f };
+	olc::vf2d potentialPos_{ 0.0f, 0.0f };
+	olc::vf2d tileRadialDimensions_{ 0.0f, 0.0f };
+	float radius_{0.0f};
+	float speed_{0.0f};
+	float angle_{0.0f};
+	std::unique_ptr<olc::Sprite> sprBall{nullptr};
+	bool testResolveCollision(const olc::vf2d &point);
+	olc::PixelGameEngine &game_;
+	Blocks &blocks_;
+	Bat &bat_;
+	olc::vf2d hitpos{0.0f, 0.0f};
+	int hitID = 0;
+	bool hasHitTile = false;
+	bool intersectBat(Bat *bat);
 };
+
+inline
+float randomf(float from, float to)
+{
+	static std::default_random_engine e(time(nullptr));
+	e.discard(1);
+	static std::uniform_real_distribution<float> u(from, to);
+	return u(e);
+}
 #endif /* ifndef BALL_H */

@@ -21,8 +21,8 @@ public:
 	int& operator[](const size_type index);
 	iterator begin();
 	iterator end();
-	const_iterator cbegin();
-	const_iterator cend();
+	const_iterator cbegin() const;
+	const_iterator cend() const;
 private:
 	static constexpr size_t width_{24};
 	static constexpr size_t height_{30};

@@ -121,13 +121,16 @@ TEST_CASE("Ball Class Assertions") {
 		REQUIRE(ball->position() == olc::vf2d(12.0f, 15.0f));
 	}
 	SECTION("Default direction is (0,0) vector") {
-		REQUIRE(ball->dir() == olc::vf2d(0.0f, 0.0f));
+		REQUIRE(ball->direction() == olc::vf2d(0.0f, 0.0f));
 	}
 	SECTION("Default radius is 5.5") {
-		REQUIRE(ball->radius() == 5.5f);
+		REQUIRE(ball->radius() == 0.0f);
 	}
 	SECTION("Default speed is 20") {
 		REQUIRE(ball->speed() == 20.0f);
+	}
+	SECTION("Default Angle is 0.4") {
+		REQUIRE(ball->angle() == 0.4f);
 	}
 
 }

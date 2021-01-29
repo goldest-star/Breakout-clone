@@ -2,7 +2,6 @@
 #define BREAKOUT_H
 
 #include "../include/olcPixelGameEngine.h"
-#include "Entity.h"
 #include "Blocks.h"
 #include <algorithm>
 #include <memory>

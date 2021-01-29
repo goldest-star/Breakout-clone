@@ -2,10 +2,12 @@
 #define BREAKOUT_H
 
 #include "../include/olcPixelGameEngine.h"
-#include "TileMap.h"
-#include "Bat.h"
-#include "Ball.h"
+#include "Entity.h"
+#include "Blocks.h"
+#include <algorithm>
 #include <memory>
+#include "Ball.h"
+#include "Bat.h"
 
 
 class BreakOut : public olc::PixelGameEngine {
@@ -13,11 +15,12 @@ public:
 	BreakOut();
 	bool OnUserCreate() override;
 	bool OnUserUpdate(float fElapsedTime) override;
-	void handleUserInput(float fElapsedTime);
-	void drawScreen();
-	std::unique_ptr<TileMap> tileMap;
+private:
+	std::unique_ptr<Blocks> blocks_;
 	std::unique_ptr<Bat> bat;
 	std::unique_ptr<Ball> ball;
+	//std::unique_ptr<Entity> fragment;
+	void renderGraphics();
+	bool playing{false};
 };
-
 #endif /* ifndef BREAKOUT_H */

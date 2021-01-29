@@ -32,8 +32,9 @@ Ball::update(float fElapsedTime)
 		float hitPos = (position_.x + tileRadialDimensions_.x - batCenter) / (bat_.width());
 		direction_.y *= -1;
 		direction_.x = hitPos;
+		// normalize the vector allows us to the direction withou changing the speed
+		direction_ = direction_.norm();
 	}
-	std::cout << speed_ * direction_ << '\n';
 	// ball position is out of bound  *** this is buggy ***
 	isOutOfBounds = position_.y > blocks_.height();
 	if (isOutOfBounds && game_.GetKey(olc::Key::SPACE).bPressed) {

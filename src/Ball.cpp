@@ -2,14 +2,7 @@
 #include "Bat.h"
 #include "BreakOut.h"
 
-Ball::Ball(olc::PixelGameEngine &game, Blocks &blocks, Bat &bat) : game_(game), blocks_(blocks), bat_(bat)
-{
-	position_ = { blocks_.width() / 2.0f, blocks_.height()/ 2.0f};
-	sprBall = std::make_unique<olc::Sprite>("../assets/gfx/ballGrey_11x11.png");
-	radius_ = sprBall->width / 2.0f; // NOTE: screen space unit
-	tileRadialDimensions_ = { radius_ / blocks_.blockSize().x, radius_ / blocks_.blockSize().y };
-	reset(position_);
-}
+Ball::Ball(olc::PixelGameEngine &game, Blocks &blocks, Bat &bat) : game_(game), blocks_(blocks), bat_(bat) {}
 
 void
 Ball::update(float fElapsedTime)

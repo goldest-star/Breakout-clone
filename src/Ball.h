@@ -2,11 +2,13 @@
 #define BALL_H
 
 #include "../include/olcPixelGameEngine.h"
+#include "Blocks.h"
 #include <memory>
 #include <random>
 
-class Blocks;
-class Bat;
+class Bat; 
+float randomf(float from, float to);
+
 class Ball {
 public:
 	Ball(olc::PixelGameEngine &game, Blocks &blocks, Bat &bat);
@@ -16,18 +18,18 @@ public:
 	void reset(const olc::vf2d &postion);
 	void reset(float x, float y);
 private:
-	olc::vf2d direction_{ 0.0f, 0.0f };
-	olc::vf2d position_{ 0.0f, 0.0f };
-	olc::vf2d potentialPos_{ 0.0f, 0.0f };
-	olc::vf2d tileRadialDimensions_{ 0.0f, 0.0f };
-	float radius_{0.0f};
-	float speed_{0.0f};
-	float angle_{0.0f};
-	std::unique_ptr<olc::Sprite> sprBall{nullptr};
-	bool testResolveCollision(const olc::vf2d &point);
 	olc::PixelGameEngine &game_;
 	Blocks &blocks_;
 	Bat &bat_;
+	std::unique_ptr<olc::Sprite> sprBall{std::make_unique<olc::Sprite>("../assets/gfx/ballGrey_11x11.png")};
+	float radius_{sprBall->width / 2.0f}; // NOTE: unit is in screen space
+	olc::vf2d tileRadialDimensions_{ radius_ / blocks_.blockSize().x, radius_ / blocks_.blockSize().y };
+	olc::vf2d position_{ blocks_.width() / 2.0f, blocks_.height()/ 2.0f };
+	olc::vf2d potentialPos_{ 0.0f, 0.0f };
+	float speed_{20.0f};
+	float angle_{randomf(0.1f, 0.9f) * 1.0f * float(M_PI)};
+	olc::vf2d direction_{ cosf(angle_), sinf(angle_) };
+	bool testResolveCollision(const olc::vf2d &point);
 	olc::vf2d hitpos{0.0f, 0.0f};
 	int hitID = 0;
 	bool hasHitTile = false;

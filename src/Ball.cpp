@@ -15,11 +15,10 @@ Ball::update(float fElapsedTime)
 	hasHitTile |= testResolveCollision(olc::vf2d(+1,0)); // eastern
 
 //	// Check Bat position
-//	if (hasHitBat) {
 	if (position_.y >= bat_.position().y
-		&& position_.x > bat_.position().x
-		&& position_.x < bat_.position().x + bat_.width()
-		&& position_.y < bat_.position().y + radius_ / 16 ) {
+			&& position_.x > bat_.position().x
+			&& position_.x < bat_.position().x + bat_.width()
+			&& position_.y < bat_.position().y + radius_ / 16 ) {
 		/* this is the same as taking the dot product */
 		float batCenter = bat_.position().x + (bat_.width() / 2);
 		float hitPos = (position_.x + tileRadialDimensions_.x - batCenter) / (bat_.width());

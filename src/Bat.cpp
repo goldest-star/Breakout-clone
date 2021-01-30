@@ -2,14 +2,7 @@
 #include "Blocks.h"
 #include <memory> 
 
-Bat::Bat(olc::PixelGameEngine &game, Blocks &blocks) : game_(game), blocks_(blocks)
-{
-	sprBat = std::make_unique<olc::Sprite>("../assets/gfx/paddleRed_64x16.png");
-	position_ = olc::vi2d((blocks_.width() / 2.0f) - (width_ / 2.0f), blocks_.height() - 1);
-	width_ = sprBat->width / float(blocks_.blockSize().x);
-	height_ = sprBat->height / float(blocks_.blockSize().x);
-	speed_ = 20.0f;
-}
+Bat::Bat(olc::PixelGameEngine &game, Blocks &blocks) : game_(game), blocks_(blocks) {}
 
 void
 Bat::update(float fElapsedTime)

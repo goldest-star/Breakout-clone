@@ -2,9 +2,9 @@
 #define BAT_H
 
 #include "../include/olcPixelGameEngine.h"
+#include "Blocks.h"
 #include <memory>
 
-class Blocks;
 class PixelGameEngine;
 class Bat {
 public:
@@ -16,12 +16,12 @@ public:
 	float height() const;
 	float speed() const;
 private:
-	olc::vf2d position_{ 0.0f, 0.0f };
-	float width_{0.0f};
-	float height_{0.0f};
-	float speed_{0.0f};
-	std::unique_ptr<olc::Sprite> sprBat{nullptr};
 	olc::PixelGameEngine &game_;
 	Blocks &blocks_;
+	std::unique_ptr<olc::Sprite> sprBat{std::make_unique<olc::Sprite>("../assets/gfx/paddleRed_64x16.png")};
+	float width_{sprBat->width / float(blocks_.blockSize().x)};
+	float height_{sprBat->height / float(blocks_.blockSize().x)};
+	float speed_{20.0f};
+	olc::vf2d position_{ (blocks_.width() / 2.0f) - (width_ / 2.0f), float(blocks_.height()) - 1.0f };
 };
 #endif /* ifndef BAT_H */

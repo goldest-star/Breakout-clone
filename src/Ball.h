@@ -11,7 +11,8 @@ float randomf(float from, float to);
 
 class Ball {
 public:
-	Ball(olc::PixelGameEngine &game, Blocks &blocks, Bat &bat);
+	Ball(olc::PixelGameEngine &game, Blocks &blocks, Bat &bat)
+		: game_(game), blocks_(blocks), bat_(bat) {}
 	void update(float fElapsedTime);
 	void draw();
 	bool isOutOfBounds = false;

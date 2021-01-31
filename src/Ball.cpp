@@ -2,8 +2,6 @@
 #include "Bat.h"
 #include "BreakOut.h"
 
-Ball::Ball(olc::PixelGameEngine &game, Blocks &blocks, Bat &bat) : game_(game), blocks_(blocks), bat_(bat) {}
-
 void
 Ball::update(float fElapsedTime)
 {

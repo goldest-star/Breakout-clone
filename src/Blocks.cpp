@@ -80,13 +80,4 @@ Blocks::drawMap(olc::PixelGameEngine *game)
 
 }
 
-
-size_t Blocks::width() const { return width_; }
-size_t Blocks::height() const { return height_; }
-size_t Blocks::size() const { return tileMap.size(); }
-olc::vi2d Blocks::blockSize() { return blockSize_; }
 int& Blocks::operator[](const size_type index) { return tileMap[index]; }
-Blocks::iterator Blocks::begin() { return tileMap.begin(); }
-Blocks::iterator Blocks::end() { return tileMap.end(); }
-Blocks::const_iterator Blocks::cbegin() const { return tileMap.cbegin(); }
-Blocks::const_iterator Blocks::cend() const { return tileMap.cend(); }

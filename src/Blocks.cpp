@@ -79,5 +79,3 @@ Blocks::drawMap(olc::PixelGameEngine *game)
 	}
 
 }
-
-int& Blocks::operator[](const size_type index) { return tileMap[index]; }

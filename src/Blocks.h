@@ -32,4 +32,6 @@ private:
 	std::unique_ptr<olc::Sprite> sprBreakableTile{nullptr};
 };
 
+inline
+int& Blocks::operator[](const size_type index) { return tileMap[index]; }
 #endif /* ifndef BLOCKS_H */

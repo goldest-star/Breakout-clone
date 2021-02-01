@@ -24,17 +24,14 @@ private:
 	Bat &bat_;
 	std::unique_ptr<olc::Sprite> sprBall{std::make_unique<olc::Sprite>("../assets/gfx/ballGrey_11x11.png")};
 	float radius_{sprBall->width / 2.0f}; // NOTE: unit is in screen space
-	olc::vf2d tileRadialDimensions_{ radius_ / blocks_.blockSize().x, radius_ / blocks_.blockSize().y };
 	olc::vf2d position_{ blocks_.width() / 2.0f, blocks_.height()/ 2.0f };
-	olc::vf2d potentialPos_{ 0.0f, 0.0f };
 	float speed_{20.0f};
 	float angle_{randomf(0.1f, 0.9f) * 1.0f * float(M_PI)};
 	olc::vf2d direction_{ cosf(angle_), sinf(angle_) };
-	bool testResolveCollision(const olc::vf2d &point);
+	bool testResolveCollision(const olc::vf2d &position, const olc::vf2d &point);
 	olc::vf2d hitpos{0.0f, 0.0f};
 	int hitID = 0;
 	bool hasHitTile = false;
-	bool intersectBat(Bat *bat);
 };
 
 inline

@@ -5,14 +5,15 @@
 void
 Ball::update(float fElapsedTime)
 {
-	potentialPos_ = position_ + direction_ * speed_ * fElapsedTime;
+	olc::vf2d tileRadialDimensions_{ radius_ / blocks_.blockSize().x, radius_ / blocks_.blockSize().y };
+	auto potentialPos = position_ + direction_ * speed_ * fElapsedTime;
 	hasHitTile = false;
-	hasHitTile |= testResolveCollision(olc::vf2d(0,-1)); // northen
-	hasHitTile |= testResolveCollision(olc::vf2d(0,+1)); // southern
-	hasHitTile |= testResolveCollision(olc::vf2d(-1,0)); // western
-	hasHitTile |= testResolveCollision(olc::vf2d(+1,0)); // eastern
+	hasHitTile |= testResolveCollision(potentialPos, olc::vf2d(0,-1)); // northen
+	hasHitTile |= testResolveCollision(potentialPos, olc::vf2d(0,+1)); // southern
+	hasHitTile |= testResolveCollision(potentialPos, olc::vf2d(-1,0)); // western
+	hasHitTile |= testResolveCollision(potentialPos, olc::vf2d(+1,0)); // eastern
 
-//	// Check Bat position
+//	Check Bat position
 	if (position_.y >= bat_.position().y
 			&& position_.x > bat_.position().x
 			&& position_.x < bat_.position().x + bat_.width()
@@ -61,11 +62,12 @@ Ball::reset(float x, float y)
 }
 
 bool
-Ball::testResolveCollision(const olc::vf2d &point)
+Ball::testResolveCollision(const olc::vf2d &position, const olc::vf2d &point)
 {
+	olc::vf2d tileRadialDimensions_{ radius_ / blocks_.blockSize().x, radius_ / blocks_.blockSize().y };
 	// offset to center point of reference
-	olc::vf2d offset = { radius_ / blocks_.blockSize().x, radius_ / blocks_.blockSize().y };
-	olc::vi2d vTestPoint = offset + potentialPos_ + tileRadialDimensions_ * point;
+	olc::vf2d offset = { radius_, radius_ };
+	olc::vi2d vTestPoint = offset + position + tileRadialDimensions_ * point;
 
 	auto index = vTestPoint.y * blocks_.width() + vTestPoint.x;
 	auto &tile = blocks_[index];
@@ -81,26 +83,4 @@ Ball::testResolveCollision(const olc::vf2d &point)
 	if (point.x == 0.0f) direction_.y *= -1.0f;
 	if (point.y == 0.0f) direction_.x *= -1.0f;
 	return true;
-}
-
-bool Ball::intersectBat(Bat *bat)
-{
-		auto potentialPos = position_ + direction_ * speed_ * game_.GetElapsedTime();
-		float testX = potentialPos.x;
-		float testY = potentialPos.y;
-
-		if (potentialPos.x < bat->position().x)
-			testX = bat->position().x; // test against left edge
-		else if (potentialPos.x > bat->position().x + bat->width())
-			testX = bat->position().x + bat->width(); // test against right edge;
-
-		if (potentialPos.y < bat->position().y) // top edge
-			testY = bat->position().y;
-		else if (potentialPos.y > bat->position().y + bat->height()) // bottom edge
-			testY = bat->position().y + bat->height();
-
-		float distX = potentialPos.x - testX;
-		float distY = potentialPos.y - testY;
-		float distance = sqrt((distX * distX) + (distY * distY)); // sqrt is expensive
-		return distance <= radius_ / 16; // don't like this
 }

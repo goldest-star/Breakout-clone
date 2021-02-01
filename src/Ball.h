@@ -2,7 +2,7 @@
 #define BALL_H
 
 #include "../include/olcPixelGameEngine.h"
-#include "Blocks.h"
+#include "World.h"
 #include <memory>
 #include <random>
 
@@ -11,7 +11,7 @@ float randomf(float from, float to);
 
 class Ball {
 public:
-	Ball(olc::PixelGameEngine &game, Blocks &blocks, Bat &bat)
+	Ball(olc::PixelGameEngine &game, World &blocks, Bat &bat)
 		: game_(game), blocks_(blocks), bat_(bat) {}
 	void update(float fElapsedTime);
 	void draw();
@@ -20,7 +20,7 @@ public:
 	void reset(float x, float y);
 private:
 	olc::PixelGameEngine &game_;
-	Blocks &blocks_;
+	World &blocks_;
 	Bat &bat_;
 	std::unique_ptr<olc::Sprite> sprBall{std::make_unique<olc::Sprite>("../assets/gfx/ballGrey_11x11.png")};
 	float radius_{sprBall->width / 2.0f}; // NOTE: unit is in screen space

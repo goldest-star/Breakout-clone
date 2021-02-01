@@ -5,13 +5,13 @@
 #include <memory>
 #include <vector>
 
-class Blocks {
+class World {
 public:
 	using size_type = std::vector<int>::size_type;
 	using iterator = std::vector<int>::iterator;
 	using const_iterator = std::vector<int>::const_iterator;
-	Blocks();
-	Blocks(const std::vector<int> &map);
+	World();
+	World(const std::vector<int> &map);
 	int& operator[](const size_type index);
 	size_t width() const { return width_; }
 	size_t height() const { return height_; }
@@ -33,5 +33,5 @@ private:
 };
 
 inline
-int& Blocks::operator[](const size_type index) { return tileMap[index]; }
+int& World::operator[](const size_type index) { return tileMap[index]; }
 #endif /* ifndef BLOCKS_H */

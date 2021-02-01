@@ -1,8 +1,8 @@
 #include "Bat.h"
-#include "Blocks.h"
+#include "World.h"
 #include <memory> 
 
-Bat::Bat(olc::PixelGameEngine &game, Blocks &blocks) : game_(game), blocks_(blocks) {}
+Bat::Bat(olc::PixelGameEngine &game, World &blocks) : game_(game), blocks_(blocks) {}
 
 void
 Bat::update(float fElapsedTime)

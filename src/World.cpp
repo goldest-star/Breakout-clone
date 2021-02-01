@@ -1,4 +1,4 @@
-#include "Blocks.h"
+#include "World.h"
 #include <iostream>
 #include <memory>
 #include <vector>
@@ -36,22 +36,22 @@ std::vector<int> lvl1{
 	10, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,10, 
 };
 
-Blocks::Blocks()
+World::World()
 {
 	loadMap(lvl1);
 	sprTile = std::make_unique<olc::Sprite>("../assets/gfx/tiles_16x16.png"); 
 }
 
-Blocks:: Blocks(const std::vector<int> &map) : tileMap(map) {}
+World:: World(const std::vector<int> &map) : tileMap(map) {}
 
 void
-Blocks::loadMap(const std::vector<int> &map)
+World::loadMap(const std::vector<int> &map)
 {
 	tileMap = map;
 }
 
 void
-Blocks::drawMap(olc::PixelGameEngine *game)
+World::drawMap(olc::PixelGameEngine *game)
 {
 	for (size_t y{0}; y < height_; ++y) {
 		for (size_t x{0}; x < width_; ++x) {
@@ -77,5 +77,4 @@ Blocks::drawMap(olc::PixelGameEngine *game)
 			}
 		}
 	}
-
 }

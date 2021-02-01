@@ -2,13 +2,13 @@
 #define BAT_H
 
 #include "../include/olcPixelGameEngine.h"
-#include "Blocks.h"
+#include "World.h"
 #include <memory>
 
 class PixelGameEngine;
 class Bat {
 public:
-	Bat(olc::PixelGameEngine &game, Blocks &blocks);
+	Bat(olc::PixelGameEngine &game, World &blocks);
 	void update(float fElapsedTime);
 	void draw();
 	olc::vf2d position() { return position_; }
@@ -17,7 +17,7 @@ public:
 	float speed() const { return speed_; }
 private:
 	olc::PixelGameEngine &game_;
-	Blocks &blocks_;
+	World &blocks_;
 	std::unique_ptr<olc::Sprite> sprBat{std::make_unique<olc::Sprite>("../assets/gfx/paddleRed_64x16.png")};
 	float width_{sprBat->width / float(blocks_.blockSize().x)};
 	float height_{sprBat->height / float(blocks_.blockSize().x)};

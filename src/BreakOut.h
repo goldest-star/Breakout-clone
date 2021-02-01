@@ -2,7 +2,7 @@
 #define BREAKOUT_H
 
 #include "../include/olcPixelGameEngine.h"
-#include "Blocks.h"
+#include "World.h"
 #include <algorithm>
 #include <memory>
 #include "Ball.h"
@@ -15,7 +15,7 @@ public:
 	bool OnUserCreate() override;
 	bool OnUserUpdate(float fElapsedTime) override;
 private:
-	std::unique_ptr<Blocks> blocks_;
+	std::unique_ptr<World> blocks_;
 	std::unique_ptr<Bat> bat;
 	std::unique_ptr<Ball> ball;
 	//std::unique_ptr<Entity> fragment;

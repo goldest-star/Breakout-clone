@@ -9,7 +9,7 @@ bool
 BreakOut::OnUserCreate()
 {
 	
-	blocks_ = std::make_unique<Blocks>();
+	blocks_ = std::make_unique<World>();
 	bat = std::make_unique<Bat>(*this, *blocks_);
 	ball = std::make_unique<Ball>(*this, *blocks_, *bat );
 //	fragment = std::make_unique<Fragment>(*this, *blocks_);

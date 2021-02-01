@@ -25,8 +25,3 @@ Bat::draw()
 {
 	game_.DrawSprite(position_ * blocks_.blockSize(), sprBat.get());
 }
-
-//olc::vf2d Bat::position() { return position_; }
-//float Bat::width() const { return width_; }
-//float Bat::height() const { return height_; }
-//float Bat::speed() const { return speed_; }

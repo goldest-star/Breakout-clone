@@ -1,5 +1,5 @@
-#ifndef BLOCKS_H
-#define BLOCKS_H
+#ifndef WORLD_H
+#define WORLD_H
 
 #include "../include/olcPixelGameEngine.h"
 #include <memory>
@@ -34,4 +34,4 @@ private:
 
 inline
 int& World::operator[](const size_type index) { return tileMap[index]; }
-#endif /* ifndef BLOCKS_H */
+#endif /* ifndef WORLD_H */

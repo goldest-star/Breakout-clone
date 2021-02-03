@@ -66,9 +66,8 @@ Ball::testResolveCollision(const olc::vf2d &position, const olc::vf2d &point)
 {
 	olc::vf2d tileRadialDimensions_{ radius_ / blocks_.blockSize().x, radius_ / blocks_.blockSize().y };
 	// offset to center point of reference
-	olc::vf2d offset = { radius_, radius_ };
+	olc::vf2d offset = { radius_ / blocks_.blockSize().x, radius_ / blocks_.blockSize().y };
 	olc::vi2d vTestPoint = offset + position + tileRadialDimensions_ * point;
-
 	auto index = vTestPoint.y * blocks_.width() + vTestPoint.x;
 	auto &tile = blocks_[index];
 	if (tile == 0 || index > blocks_.size())

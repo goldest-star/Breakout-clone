@@ -14,6 +14,9 @@ Ball::Ball(olc::PixelGameEngine &game, World &blocks, Bat &bat)
 void
 Ball::update(float fElapsedTime)
 {
+	if (game_.GetKey(olc::Key::R).bPressed)
+		reset(blocks_.width() / 2.0f, blocks_.height()/ 2.0f);
+
 	olc::vf2d tileRadialDimensions_{ radius_ / blocks_.blockSize().x, radius_ / blocks_.blockSize().y };
 	auto potentialPos = position_ + velocity_ * fElapsedTime;
 	hasHitTile = false;

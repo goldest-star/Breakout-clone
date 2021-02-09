@@ -33,12 +33,8 @@ Ball::update(float fElapsedTime)
 		// check for collision
 		if ((potentialPos - rNearestPnt).mag() <= radius_ / blocks_.blockSize().x) {
 			// dynamic collision resolution
-			if (velocity_.x == velocity_.y)
-				velocity_ *= -1;
-			else {
-				auto &reverseAxis = (velocity_.x > velocity_.y) ? velocity_.x : velocity_.y; 
-				reverseAxis *= -1;
-			}
+			auto &reverseAxis = (velocity_.x > velocity_.y) ? velocity_.x : velocity_.y; 
+			reverseAxis *= -1;
 		}
 	}
 

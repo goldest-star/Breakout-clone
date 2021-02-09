@@ -8,7 +8,6 @@
 #include "Ball.h"
 #include "Bat.h"
 
-
 class BreakOut : public olc::PixelGameEngine {
 public:
 	BreakOut();
@@ -18,7 +17,6 @@ private:
 	std::unique_ptr<World> blocks_;
 	std::unique_ptr<Bat> bat;
 	std::unique_ptr<Ball> ball;
-	//std::unique_ptr<Entity> fragment;
 	void renderGraphics();
 	bool playing{false};
 };

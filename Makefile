@@ -33,7 +33,7 @@ INC_FLAGS := $(addprefix -I,$(INC_DIRS))
 LDFLAGS  ?= -lX11 -lGL -lpthread -lpng -lstdc++fs
 CPPFLAGS ?= $(INC_FLAGS) -MMD -MP
 CXXFLAGS ?= -std=c++17
-WARNINGS ?= -g -Wall -Wextra -Werror -pedantic-errors\
+WARNINGS ?= -g -Wall -Wextra -Werror -pedantic-errors \
 			-Wwrite-strings -Wno-parentheses -Warray-bounds
 
 all: $(BUILD_DIR)/$(TARGET_EXEC)

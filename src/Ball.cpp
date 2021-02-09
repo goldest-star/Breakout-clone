@@ -5,7 +5,6 @@
 Ball::Ball(olc::PixelGameEngine &game, World &blocks, Bat &bat)
 		  : game_(game), blocks_(blocks), bat_(bat)
 {
-	
 	sprBall = std::make_unique<olc::Sprite>("../assets/gfx/ballGrey_16x16.png");
 	radius_ = sprBall->width / 2.0f; // NOTE: unit is in screen space
 	reset(blocks_.width() / 2.0f, blocks_.height()/ 2.0f);
@@ -20,31 +19,36 @@ Ball::update(float fElapsedTime)
 	olc::vf2d tileRadialDimensions_{ radius_ / blocks_.blockSize().x, radius_ / blocks_.blockSize().y };
 	auto potentialPos = position_ + velocity_ * fElapsedTime;
 	hasHitTile = false;
-	hasHitTile |= testResolveCollision(potentialPos, olc::vf2d(0,-1)); // northen
+	hasHitTile |= testResolveCollision(potentialPos, olc::vf2d(0,-1)); // northern
 	hasHitTile |= testResolveCollision(potentialPos, olc::vf2d(0,+1)); // southern
 	hasHitTile |= testResolveCollision(potentialPos, olc::vf2d(-1,0)); // western
 	hasHitTile |= testResolveCollision(potentialPos, olc::vf2d(+1,0)); // eastern
 
-//	Check Bat position
-	if (position_.y >= bat_.position().y
-			&& position_.x > bat_.position().x
-			&& position_.x < bat_.position().x + bat_.width()
-			&& position_.y < bat_.position().y + radius_ / 16 ) {
-		/* this is the same as taking the dot product */
-		float batCenter = bat_.position().x + (bat_.width() / 2);
-		float hitPos = (position_.x + tileRadialDimensions_.x - batCenter) / (bat_.width());
-		velocity_.y *= -1;
-		velocity_.x = hitPos * 35;
-		// normalize the vector allows us to the direction withou changing the speed
-//		velocity_ = velocity_.norm();
+	// bat collision (circle vs rectangle collision)
+	if (potentialPos.y >= bat_.position().y) {
+		// clamp ball position to bat's size
+		float nx{std::max(bat_.position().x, std::min(bat_.position().x + bat_.width(), potentialPos.x))};
+		float ny{std::max(bat_.position().y, std::min(bat_.position().y + bat_.height(), potentialPos.y))};
+		olc::vf2d rNearestPnt{nx, ny};
+		// check for collision
+		if ((potentialPos - rNearestPnt).mag() <= radius_ / blocks_.blockSize().x) {
+			// dynamic collision resolution
+			if (velocity_.x == velocity_.y)
+				velocity_ *= -1;
+			else {
+				auto &reverseAxis = (velocity_.x > velocity_.y) ? velocity_.x : velocity_.y; 
+				reverseAxis *= -1;
+			}
+		}
 	}
+
 	// ball position is out of bound  *** this is buggy ***
 	isOutOfBounds = position_.y > blocks_.height();
 	if (isOutOfBounds && game_.GetKey(olc::Key::SPACE).bPressed) {
 		reset(blocks_.width() / 2.0f, blocks_.height() / 2.0f);
 		isOutOfBounds = false;
 	}
-	position_ += velocity_ * fElapsedTime; // delta x = detal v * delta t
+	position_ += velocity_ * fElapsedTime; // delta x = delta v * delta t
 }
 
 void
@@ -53,8 +57,10 @@ Ball::draw()
 	if (isOutOfBounds) {
 		auto msg = std::string("PRESS SPACE BAR");
 		game_.DrawString(olc::vi2d((blocks_.width() - msg.size() / 2) / 2, blocks_.height() / 2) * blocks_.blockSize(), msg, olc::WHITE);
-	} else
-		game_.DrawSprite(position_ * blocks_.blockSize(), sprBall.get());
+	} else {
+		olc::vf2d tileRadialDimensions_{ radius_ / blocks_.blockSize().x, radius_ / blocks_.blockSize().y };
+		game_.DrawSprite((position_ - tileRadialDimensions_) * blocks_.blockSize(), sprBall.get());
+	}
 }
 
 void 

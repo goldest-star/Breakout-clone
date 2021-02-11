@@ -16,7 +16,6 @@ Ball::update(float fElapsedTime)
 	if (game_.GetKey(olc::Key::R).bPressed)
 		reset(blocks_.width() / 2.0f, blocks_.height()/ 2.0f);
 
-	olc::vf2d tileRadialDimensions_{ radius_ / blocks_.blockSize().x, radius_ / blocks_.blockSize().y };
 	auto potentialPos = position_ + velocity_ * fElapsedTime;
 	hasHitTile = false;
 	hasHitTile |= testResolveCollision(potentialPos, olc::vf2d(0,-1)); // northern
@@ -51,8 +50,8 @@ Ball::draw()
 		auto msg = std::string("PRESS SPACE BAR");
 		game_.DrawString(olc::vi2d((blocks_.width() - msg.size() / 2) / 2, blocks_.height() / 2) * blocks_.blockSize(), msg, olc::WHITE);
 	} else {
-		olc::vf2d tileRadialDimensions_{ radius_ / blocks_.blockSize().x, radius_ / blocks_.blockSize().y };
-		game_.DrawSprite((position_ - tileRadialDimensions_) * blocks_.blockSize(), sprBall.get());
+		olc::vf2d offset{ radius_ / blocks_.blockSize().x, radius_ / blocks_.blockSize().y }; // to set origin at centre of sprite
+		game_.DrawSprite((position_ - offset) * blocks_.blockSize(), sprBall.get());
 	}
 }
 
@@ -78,8 +77,7 @@ Ball::testResolveCollision(const olc::vf2d &position, const olc::vf2d &point)
 {
 	olc::vf2d tileRadialDimensions_{ radius_ / blocks_.blockSize().x, radius_ / blocks_.blockSize().y };
 	// offset to center point of reference
-	olc::vf2d offset = { radius_ / blocks_.blockSize().x, radius_ / blocks_.blockSize().y };
-	olc::vi2d vTestPoint =  offset + position + tileRadialDimensions_ * point;
+	olc::vi2d vTestPoint = position + tileRadialDimensions_ * point;
 	auto index = vTestPoint.y * blocks_.width() + vTestPoint.x;
 	auto &tile = blocks_[index];
 	if (tile == 0 || index > blocks_.size())

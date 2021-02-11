@@ -26,15 +26,12 @@ Ball::update(float fElapsedTime)
 
 	// bat collision (circle vs rectangle collision)
 	if (potentialPos.y >= bat_.position().y) {
-		// clamp ball position to bat's size
-		float nx{std::max(bat_.position().x, std::min(bat_.position().x + bat_.width(), potentialPos.x))};
-		float ny{std::max(bat_.position().y, std::min(bat_.position().y + bat_.height(), potentialPos.y))};
-		olc::vf2d rNearestPnt{nx, ny};
-		// check for collision
-		if ((potentialPos - rNearestPnt).mag() <= radius_ / blocks_.blockSize().x) {
-			// dynamic collision resolution
-			auto &reverseAxis = (velocity_.x > velocity_.y) ? velocity_.x : velocity_.y; 
-			reverseAxis *= -1;
+		if (circleVsRect(potentialPos, bat_.position(), { bat_.width(), bat_.height() })) {
+			auto d{velocity_.norm()}; // incedint ray
+			auto vSurface{(bat_.position() - bat_.position() + olc::vd2d{ bat_.width(), 0.0f }).norm()};
+			auto n{vSurface.perp().norm()}; // normal ray (a.k.a surface normal)
+			auto r{d - 2 * d.dot(n) * n}; // reflection ray
+			velocity_ = r * velocity_.mag();
 		}
 	}
 
@@ -97,4 +94,16 @@ Ball::testResolveCollision(const olc::vf2d &position, const olc::vf2d &point)
 	if (point.x == 0.0f) velocity_.y *= -1.0f;
 	if (point.y == 0.0f) velocity_.x *= -1.0f;
 	return true;
+}
+
+bool
+Ball::circleVsRect(const olc::vf2d &pos, const olc::vf2d &rectPos, const olc::vf2d &recSize)
+{
+	auto [width, height]{recSize};
+	// clamp ball position to bat's size
+	float nx{std::max(rectPos.x, std::min(rectPos.x + width, pos.x))};
+	float ny{std::max(rectPos.y, std::min(rectPos.y + height, pos.y))};
+	olc::vf2d vNearestPnt{ nx, ny };
+	olc::vf2d vNearestRay{pos - vNearestPnt};
+	return vNearestRay.mag() <= radius_ / blocks_.blockSize().x;
 }

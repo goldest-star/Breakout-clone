@@ -26,6 +26,7 @@ private:
 	olc::vf2d position_{ 0.0f, 0.0f };
 	olc::vf2d velocity_{ 0.0f, 0.0f };
 	bool testResolveCollision(const olc::vf2d &position, const olc::vf2d &point);
+	bool circleVsRect(const olc::vf2d &postion, const olc::vf2d &rectPos, const olc::vf2d &recSize); 
 	olc::vf2d hitpos{0.0f, 0.0f};
 	int hitID = 0;
 	bool hasHitTile = false;

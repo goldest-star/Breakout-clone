@@ -6,9 +6,9 @@ great minimal game engine that provides just enough routines to draw graphics
 on the screen and receive user's input/output.  Assets are by
 [Kenney](https://www.kenney.nl/).
 
-This project is made for learning purposes. I will add more comments as a you
-go. Hopefully, it will help out someone in the future. As it is still under
-development, please let me know if you found any mistake or bug in the code. 
+This project under active development. It is made for learning purposes, so I
+will add more comments as a I go. Hopefully, it will be helpful to someone in
+the future. Please let me know if you found any mistake or bug in the code. 
 
 Cheers!
 

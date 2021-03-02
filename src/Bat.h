@@ -2,11 +2,12 @@
 #define BAT_H
 
 #include "../include/olcPixelGameEngine.h"
+#include "Entity.h"
 #include "World.h"
 #include <memory>
 
 class PixelGameEngine;
-class Bat {
+class Bat : public Entity {
 public:
 	Bat(olc::PixelGameEngine &game, World &blocks);
 	void update(float fElapsedTime);

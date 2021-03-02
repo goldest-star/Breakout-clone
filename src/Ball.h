@@ -2,6 +2,7 @@
 #define BALL_H
 
 #include "../include/olcPixelGameEngine.h"
+#include "Entity.h"
 #include "World.h"
 #include <memory>
 #include <random>
@@ -9,9 +10,9 @@
 class Bat; 
 float randomf(float from, float to);
 
-class Ball {
+class Ball : public Entity {
 public:
-	Ball(olc::PixelGameEngine &game, World &blocks, Bat &bat);
+	Ball(olc::PixelGameEngine &game, World &blocks, Entity &bat);
 	void update(float fElapsedTime);
 	void draw();
 	bool isOutOfBounds = false;
@@ -21,7 +22,7 @@ public:
 private:
 	olc::PixelGameEngine &game_;
 	World &world_;
-	Bat &bat_;
+	Entity &bat_;
 	std::unique_ptr<olc::Sprite> sprBall{nullptr};
 	float radius_{0.0f};
 	olc::vf2d position_{ 0.0f, 0.0f };

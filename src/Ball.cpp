@@ -2,7 +2,7 @@
 #include "Bat.h"
 #include "BreakOut.h"
 
-Ball::Ball(olc::PixelGameEngine &game, World &blocks, Bat &bat)
+Ball::Ball(olc::PixelGameEngine &game, World &blocks, Entity &bat)
 		  : game_(game), world_(blocks), bat_(bat)
 {
 	sprBall = std::make_unique<olc::Sprite>("../assets/gfx/ballGrey_16x16.png");

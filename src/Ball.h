@@ -17,6 +17,7 @@ public:
 	bool isOutOfBounds = false;
 	void reset(const olc::vf2d &postion);
 	void reset(float x, float y);
+	void roll();
 private:
 	olc::PixelGameEngine &game_;
 	World &blocks_;

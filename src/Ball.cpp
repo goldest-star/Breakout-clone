@@ -12,6 +12,7 @@ Ball::Ball(olc::PixelGameEngine &game, World &blocks, Bat &bat)
 	sprBall = std::make_unique<olc::Sprite>("../assets/gfx/ballGrey_16x16.png");
 	radius_ = float(sprBall->width) / float(blocks_.blockSize().x) / 2.0f;
 	reset(blocks_.width() / 2.0f, blocks_.height()/ 2.0f);
+	roll();
 } 
 
 void
@@ -24,7 +25,7 @@ Ball::update(float fElapsedTime)
 
 	// area of detection
 	olc::vi2d currentCell = position_.floor();
-	olc::vi2d targetCell = potentialPos; // why no ceiling
+	olc::vi2d targetCell = potentialPos;
 	olc::vi2d worldSize{ int(blocks_.width()), int(blocks_.height()) };
 	olc::vi2d areaTopleft = (currentCell.min(targetCell) - olc::vi2d(1, 1)).max({ 0, 0 });
 	olc::vi2d areBottomRight = (currentCell.max(targetCell) + olc::vi2d(1, 1)).min(worldSize - olc::vi2d(1, 1));
@@ -47,13 +48,16 @@ Ball::update(float fElapsedTime)
 		}
 	position_ += velocity_ * fElapsedTime;
 
-	// should use state pattern instead
-	if (position_.y > blocks_.height())
-		isOutOfBounds = true;
-	if (isOutOfBounds)
+	// TODO: should use state pattern instead
+	if (position_.y > blocks_.height()) {
 		reset(blocks_.width() / 2.0f, blocks_.height() / 2.0f);
-	if (isOutOfBounds && game_.GetKey(olc::Key::SPACE).bPressed)
+		isOutOfBounds = true;
+	}
+
+	if (isOutOfBounds && game_.GetKey(olc::Key::SPACE).bPressed) {
+		roll();
 		isOutOfBounds = false;
+	}
 }
 
 void
@@ -77,12 +81,18 @@ Ball::reset(const olc::vf2d &postion)
 void
 Ball::reset(float x, float y)
 {
+	velocity_ = { 0.0f, 0.0f };
+	position_ = { x, y };
+}
+
+void
+Ball::roll()
+{
 	// change 1.0f to 2.0f to get an angle value between 0 and 2PI (360 degrees) as well.
 	float angle_{randomf(0.1f, 0.9f) * 1.0f * float(M_PI)};
 	olc::vf2d direction_{ cosf(angle_), sinf(angle_) };
 	float speed_{20.0f};
 	velocity_ = speed_ * direction_;
-	position_ = { x, y };
 }
 
 bool

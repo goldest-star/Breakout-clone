@@ -7,6 +7,8 @@ Bat::Bat(olc::PixelGameEngine &game, World &blocks) : game_(game), blocks_(block
 void
 Bat::update(float fElapsedTime)
 {
+	auto prevPosition{position_};
+
 	// Handle user input
 	if (game_.GetKey(olc::Key::LEFT).bHeld || game_.GetKey(olc::Key::A).bHeld)
 		position_.x -= speed_ * fElapsedTime;
@@ -18,6 +20,12 @@ Bat::update(float fElapsedTime)
 		position_.x = leftWallEdge;
 	if (float rightWallEdge = blocks_.width() - 1.0f; position_.x + width_ > rightWallEdge)
 		position_.x = rightWallEdge - width_;
+
+	// update postion on map
+	for (int x = prevPosition.x; x < prevPosition.x + width_; ++x) {
+		blocks_[prevPosition.y * blocks_.width() + x] = 0; // clear previous position
+		blocks_[position_.y * blocks_.width() + x] = 20; // udate new position
+	}
 }
 
 void

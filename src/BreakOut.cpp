@@ -8,9 +8,9 @@ BreakOut::BreakOut() { sAppName = "BreakOut"; }
 bool
 BreakOut::OnUserCreate()
 {
-	blocks_ = std::make_unique<World>(*this);
-	bat = std::make_unique<Bat>(*this, *blocks_);
-	ball = std::make_unique<Ball>(*this, *blocks_, *bat );
+	world = std::make_unique<World>(*this);
+	bat = std::make_unique<Bat>(*this, *world);
+	ball = std::make_unique<Ball>(*this, *world, *bat );
 	return true;
 }
 
@@ -40,9 +40,9 @@ BreakOut::renderGraphics()
 	Clear(olc::Pixel(31, 144, 255)); // blue
 	if (!playing) {
 		auto msg = std::string("PRESS SPACE BAR");
-		DrawString(olc::vi2d((blocks_->width() - msg.size() / 2) / 2, blocks_->height() / 2) * blocks_->blockSize(), msg, olc::WHITE);
+		DrawString(olc::vi2d((world->width() - msg.size() / 2) / 2, world->height() / 2) * world->blockSize(), msg, olc::WHITE);
 	}
-	blocks_->draw();
+	world->draw();
 	bat->draw();
 	ball->draw();
 	SetPixelMode(olc::Pixel::NORMAL); // Draw all pixels

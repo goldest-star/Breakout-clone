@@ -21,11 +21,12 @@ Bat::update(float fElapsedTime)
 	if (float rightWallEdge = blocks_.width() - 1.0f; position_.x + width_ > rightWallEdge)
 		position_.x = rightWallEdge - width_;
 
-	// update postion on map
-	for (int x = prevPosition.x; x < prevPosition.x + width_; ++x) {
-		blocks_[prevPosition.y * blocks_.width() + x] = 0; // clear previous position
-		blocks_[position_.y * blocks_.width() + x] = 20; // udate new position
-	}
+	// clear previous position
+	for (int x = prevPosition.x; x < prevPosition.x + width_; ++x)
+		blocks_[prevPosition.y * blocks_.width() + x] = 0;
+	// update with new position
+	for (int x = position_.x; x < position_.x + width_; ++x)
+		blocks_[position_.y * blocks_.width() + x] = 20;
 }
 
 void

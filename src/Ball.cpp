@@ -10,7 +10,7 @@ Ball::Ball(olc::PixelGameEngine &game, World &blocks, Bat &bat)
 		  : game_(game), blocks_(blocks), bat_(bat)
 {
 	sprBall = std::make_unique<olc::Sprite>("../assets/gfx/ballGrey_16x16.png");
-	radius_ = sprBall->width / 2.0f; // NOTE: unit is in screen space
+	radius_ = float(sprBall->width) / float(blocks_.blockSize().x) / 2.0f;
 	reset(blocks_.width() / 2.0f, blocks_.height()/ 2.0f);
 } 
 
@@ -63,7 +63,7 @@ Ball::draw()
 		auto msg = std::string("PRESS SPACE BAR");
 		game_.DrawString(olc::vi2d((blocks_.width() - msg.size() / 2) / 2, blocks_.height() / 2) * blocks_.blockSize(), msg, olc::WHITE);
 	} else {
-		olc::vf2d offset{ radius_ / blocks_.blockSize().x, radius_ / blocks_.blockSize().y }; // to set origin at centre of sprite
+		olc::vf2d offset{ radius_, radius_ }; // to set origin at centre of sprite
 		game_.DrawSprite((position_ - offset) * blocks_.blockSize(), sprBall.get());
 	}
 }
@@ -93,11 +93,11 @@ Ball::circleVsRect(const olc::vf2d &pos, const olc::vf2d &rectPos, const olc::vf
 	nearestPnt.x = std::max(rectPos.x, std::min(rectPos.x + rSize.x, pos.x));
 	nearestPnt.y = std::max(rectPos.y, std::min(rectPos.y + rSize.y, pos.y));
 	olc::vf2d nearestRay{nearestPnt - pos};
-	float overlap{(radius_ / float(blocks_.blockSize().x)) - nearestRay.mag()};
+	float overlap{radius_ - nearestRay.mag()};
 	if (std::isnan(overlap)) overlap = 0;
 	if (overlap > 0) { // collision
 		auto dir{nearestRay.norm()};
-		contactPnt = (pos - dir * overlap) + dir * (radius_ / 16);; 
+		contactPnt = (pos - dir * overlap) + dir * (radius_);; 
 		return true;
 	}
 	return false;

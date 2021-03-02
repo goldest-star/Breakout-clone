@@ -38,7 +38,6 @@ Ball::update(float fElapsedTime)
 			olc::vf2d contactPnt;
 			if (tile > 0 && circleVsRect(potentialPos, cell, cellSize, contactPnt)) {
 				olc::vf2d normal{contactNormal(contactPnt, cell, cellSize)};
-				std::cout << -(position_ - contactPnt).norm() << '\n';
 				// reflection ray equation: r = d - 2n(d * n)
 				auto incedentRay{velocity_.norm()};
 				auto reflectedRay{incedentRay - 2 * normal * incedentRay.dot(normal)};

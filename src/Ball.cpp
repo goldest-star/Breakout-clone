@@ -2,10 +2,6 @@
 #include "Bat.h"
 #include "BreakOut.h"
 
-#include <algorithm>
-#include <cmath>
-#include <iostream>
-
 Ball::Ball(olc::PixelGameEngine &game, World &blocks, Bat &bat)
 		  : game_(game), world_(blocks), bat_(bat)
 {

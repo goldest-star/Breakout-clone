@@ -20,7 +20,7 @@ public:
 	void roll();
 private:
 	olc::PixelGameEngine &game_;
-	World &blocks_;
+	World &world_;
 	Bat &bat_;
 	std::unique_ptr<olc::Sprite> sprBall{nullptr};
 	float radius_{0.0f};

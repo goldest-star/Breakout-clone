@@ -7,11 +7,11 @@
 #include <iostream>
 
 Ball::Ball(olc::PixelGameEngine &game, World &blocks, Bat &bat)
-		  : game_(game), blocks_(blocks), bat_(bat)
+		  : game_(game), world_(blocks), bat_(bat)
 {
 	sprBall = std::make_unique<olc::Sprite>("../assets/gfx/ballGrey_16x16.png");
-	radius_ = float(sprBall->width) / float(blocks_.blockSize().x) / 2.0f;
-	reset(blocks_.width() / 2.0f, blocks_.height()/ 2.0f);
+	radius_ = float(sprBall->width) / float(world_.blockSize().x) / 2.0f;
+	reset(world_.width() / 2.0f, world_.height()/ 2.0f);
 	roll();
 } 
 
@@ -19,14 +19,14 @@ void
 Ball::update(float fElapsedTime)
 {
 	if (game_.GetKey(olc::Key::R).bPressed)
-		reset(blocks_.width() / 2.0f, blocks_.height()/ 2.0f);
+		reset(world_.width() / 2.0f, world_.height()/ 2.0f);
 
 	auto potentialPos = position_ + velocity_ * fElapsedTime;
 
 	// area of detection
 	olc::vi2d currentCell = position_.floor();
 	olc::vi2d targetCell = potentialPos;
-	olc::vi2d worldSize{ int(blocks_.width()), int(blocks_.height()) };
+	olc::vi2d worldSize{ int(world_.width()), int(world_.height()) };
 	olc::vi2d areaTopleft = (currentCell.min(targetCell) - olc::vi2d(1, 1)).max({ 0, 0 });
 	olc::vi2d areBottomRight = (currentCell.max(targetCell) + olc::vi2d(1, 1)).min(worldSize - olc::vi2d(1, 1));
 	// iterate through the cells in the limited area
@@ -34,7 +34,7 @@ Ball::update(float fElapsedTime)
 	olc::vi2d cellSize{ 1, 1 };
 	for (cell.y = areaTopleft.y; cell.y <= areBottomRight.y; ++cell.y)
 		for (cell.x = areaTopleft.x; cell.x <= areBottomRight.x; ++cell.x) {
-			auto &tile{blocks_[cell.y * blocks_.width() + cell.x]};
+			auto &tile{world_[cell.y * world_.width() + cell.x]};
 			olc::vf2d contactPnt;
 			if (tile > 0 && circleVsRect(potentialPos, cell, cellSize, contactPnt)) {
 				olc::vf2d normal{contactNormal(contactPnt, cell, cellSize)};
@@ -49,8 +49,8 @@ Ball::update(float fElapsedTime)
 	position_ += velocity_ * fElapsedTime;
 
 	// TODO: should use state pattern instead
-	if (position_.y > blocks_.height()) {
-		reset(blocks_.width() / 2.0f, blocks_.height() / 2.0f);
+	if (position_.y > world_.height()) {
+		reset(world_.width() / 2.0f, world_.height() / 2.0f);
 		isOutOfBounds = true;
 	}
 
@@ -65,10 +65,10 @@ Ball::draw()
 {
 	if (isOutOfBounds) {
 		auto msg = std::string("PRESS SPACE BAR");
-		game_.DrawString(olc::vi2d((blocks_.width() - msg.size() / 2) / 2, blocks_.height() / 2) * blocks_.blockSize(), msg, olc::WHITE);
+		game_.DrawString(olc::vi2d((world_.width() - msg.size() / 2) / 2, world_.height() / 2) * world_.blockSize(), msg, olc::WHITE);
 	} else {
 		olc::vf2d offset{ radius_, radius_ }; // to set origin at centre of sprite
-		game_.DrawSprite((position_ - offset) * blocks_.blockSize(), sprBall.get());
+		game_.DrawSprite((position_ - offset) * world_.blockSize(), sprBall.get());
 	}
 }
 

@@ -42,7 +42,7 @@ World::World(olc::PixelGameEngine &gameEngine) : gameEngine_(std::make_unique<ol
 	sprTile = std::make_unique<olc::Sprite>("../assets/gfx/tiles_16x16.png"); 
 }
 
-World:: World(const std::vector<int> &map) : tileMap(map) {}
+World::World(const std::vector<int> &map) : tileMap(map) {}
 
 void
 World::loadMap(const std::vector<int> &map)

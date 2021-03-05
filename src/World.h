@@ -2,20 +2,20 @@
 #define WORLD_H
 
 #include "../include/olcPixelGameEngine.h"
-#include "Entity.h"
+#include "GameObject.h"
 #include <algorithm>
 #include <memory>
 #include <vector>
 
-class World : public Entity {
+class World {
 public:
 	using size_type = std::vector<int>::size_type;
 	using iterator = std::vector<int>::iterator;
 	using const_iterator = std::vector<int>::const_iterator;
 	World(olc::PixelGameEngine &gameEngine);
 	World(const std::vector<int> &map);
-	void update(float fElapsedTime) override;
-	void draw() override;
+	void update(float fElapsedTime);
+	void draw();
 	int& operator[](const size_type index);
 	size_t width() const { return width_; }
 	size_t height() const { return height_; }

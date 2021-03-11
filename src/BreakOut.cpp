@@ -22,7 +22,6 @@ BreakOut::OnUserCreate()
 	bat->velocity() = { 20.0f, 0.0f };
 
 	ball->position() = { world->width() / 2.0f , world->height() / 2.0f };
-//	reset(*ball, { 12, 15});
 	roll(*ball);
 
 	return true;

@@ -1,5 +1,5 @@
 #ifndef BALL_PHYSICS_COMPONENT
-#define BALL_PHYSICS_COMPONENT value
+#define BALL_PHYSICS_COMPONENT
 
 #include "PhysicsComponent.h"
 #include "GameObject.h"

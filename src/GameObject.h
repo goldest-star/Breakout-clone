@@ -1,7 +1,7 @@
 #ifndef GAME_OBJECT_H
 #define GAME_OBJECT_H
 
-#include "../include/olcPixelGameEngine.h"
+#include <olcPixelGameEngine.h>
 #include "InputComponent.h"
 #include "PhysicsComponent.h"
 #include "GraphicsComponent.h"

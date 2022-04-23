@@ -16,10 +16,12 @@ Cheers!
 ![alt text](./assets/screenshot.png "BreakOut Clone Screenshot")
 
 ## To build:
-make clean && make
+cmake -S . -B Build
+cd Build
+make
 
 ## To run (Linux):
-./build/breakout
+./BreakoutClone
 
 
 

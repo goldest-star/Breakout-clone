@@ -5,7 +5,6 @@
 #include "BallInputComponent.h"
 #include "BallPhysicsComponenet.h"
 #include "BallGraphicsComponent.h"
-#include <memory>
 
 BreakOut::BreakOut() { sAppName = "BreakOut"; }
 
@@ -32,7 +31,7 @@ BreakOut::OnUserUpdate([[maybe_unused]]float fElapsedTime)
 {
 	// Quit game
 	if (GetKey(olc::Key::Q).bPressed)
-		exit(0);
+		return false;
 
 	bat->update(this, world.get());
 	ball->update(this, world.get());

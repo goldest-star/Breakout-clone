@@ -1,7 +1,7 @@
 #ifndef GRAPHICS_COMPNONENT_H
 #define GRAPHICS_COMPNONENT_H
 
-#include "../include/olcPixelGameEngine.h"
+#include <olcPixelGameEngine.h>
 class GameObject;
 
 class GraphicsComponent {

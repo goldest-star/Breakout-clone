@@ -1,7 +1,7 @@
 #ifndef INPUT_COMPONENT_H
 #define INPUT_COMPONENT_H
 
-#include "../include/olcPixelGameEngine.h"
+#include <olcPixelGameEngine.h>
 
 class GameObject;
 class World;

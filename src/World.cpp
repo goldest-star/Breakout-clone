@@ -36,13 +36,13 @@ std::vector<int> lvl1{
 	10, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,10, 
 };
 
-World::World(olc::PixelGameEngine &gameEngine) : gameEngine_(std::make_unique<olc::PixelGameEngine>(gameEngine))
+World::World(olc::PixelGameEngine* gameEngine) : gameEngine_(gameEngine)
 {
 	loadMap(lvl1);
 	sprTile = std::make_unique<olc::Sprite>("../assets/gfx/tiles_16x16.png"); 
 }
 
-World::World(const std::vector<int> &map) : tileMap(map) {}
+//World::World(const std::vector<int> &map) : tileMap(map) {}
 
 void
 World::loadMap(const std::vector<int> &map)

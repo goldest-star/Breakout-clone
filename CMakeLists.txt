@@ -7,7 +7,7 @@ project(BreakoutClone
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED TRUE)
 
-# YouCompleteMe Intillisense
+# For YouCompleteMe Intillisense
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
 set(SOURCES
@@ -18,11 +18,11 @@ set(SOURCES
     src/BatInputComponent.cpp
     src/BatPhysicsComonent.cpp
     src/GameObject.cpp
-    src/olcPixelGameEngine.cpp
     src/BreakOut.cpp
-    src/World.cpp
+	src/World.cpp
     src/main.cpp
-    )
+	src/olcPixelGameEngine.cpp
+)
 
 set(HEADERS
     src/BallInputComponent.h
@@ -36,12 +36,13 @@ set(HEADERS
     src/GraphicsComponent.h
     src/InputComponent.h
     src/PhysicsComponent.h
-    src/World.h
-    )
+	src/World.h
+)
+
 
 add_executable(${PROJECT_NAME} ${SOURCES} ${HEADERS})
 
-target_include_directories(${PROJECT_NAME} PUBLIC ${PROJECT_SOURCE_DIR}/include/)
+target_include_directories(${PROJECT_NAME} PUBLIC ${PROJECT_SOURCE_DIR}/external/olcPixelGameEngine/)
 
 set(THREADS_PREFER_PTHREAD_FLAG TRUE)
 
@@ -55,6 +56,6 @@ set(LINK_LIBS ${X11_LIBRARIES}
               Threads::Threads
               ${PNG_LIBRARIES}
               stdc++fs
-              )
+)
 
 target_link_libraries(${PROJECT_NAME} PUBLIC ${LINK_LIBS})

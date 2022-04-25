@@ -1,7 +1,7 @@
 #ifndef PHYSICS_COMPONENT_H
 #define PHYSICS_COMPONENT_H
 
-#include "../include/olcPixelGameEngine.h"
+#include <olcPixelGameEngine.h>
 
 class GameObject;
 class World;

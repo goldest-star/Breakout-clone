@@ -11,7 +11,7 @@ BreakOut::BreakOut() { sAppName = "BreakOut"; }
 bool
 BreakOut::OnUserCreate()
 {
-	world = std::make_unique<World>(*this);
+	world = std::make_unique<World>(this);
 	bat = std::make_unique<GameObject>(new BatInputComponent(),
 			new BatPhysicsComponent(), new BatGraphicsComponent());
 	ball = std::make_unique<GameObject>(new BallInputComponent(),

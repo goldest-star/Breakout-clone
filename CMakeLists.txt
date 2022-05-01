@@ -29,7 +29,8 @@ if(NOT EXISTS "${PROJECT_SOURCE_DIR}/external/olcPixelGameEngine/olcPixelGameEng
     message(FATAL_ERROR "The submodules were not downloaded! GIT_SUBMODULE was turned off or failed. Please update submodules and try again.")
 endif()
 
-set(SOURCES
+set(
+	SOURCES
     src/BallGraphicsComponent.cpp
     src/BallInputComponent.cpp
     src/BallPhysicsComponenet.cpp
@@ -43,7 +44,8 @@ set(SOURCES
 	src/olcPixelGameEngine.cpp
 )
 
-set(HEADERS
+set(
+	HEADERS
     src/BallInputComponent.h
     src/BallGraphicsComponent.h
     src/BallPhysicsComponenet.h
@@ -57,6 +59,7 @@ set(HEADERS
     src/PhysicsComponent.h
 	src/World.h
 )
+
 
 add_executable(${PROJECT_NAME} ${SOURCES} ${HEADERS})
 

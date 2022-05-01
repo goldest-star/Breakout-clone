@@ -1,0 +1,129 @@
+@startuml
+skinparam shadowing true
+skinparam DefaultFontName consolas
+allowmixing
+hide empty members
+hide <<Aggregates>> circle
+hide <<Aggregates>> stereotype
+hide empty
+
+note as T #DDF
+**Types**
+---
+iterator := std::vector<int>::iterator
+const_iterator := std::vector<int>::const_iterator
+end note
+
+class PixelGameEngine {
+	+ sAppName
+	---
+	+ {abstract} OnUserCreate() : bool
+	+ {abstract} OnUserUpdate(fElapsedTime : float) : bool
+}
+
+class Breakout {
+	- m_gameObjects : vector<uniqe_ptr<GameObject>>
+	---
+	+ OnuserCreate() : bool
+	+ OnUserUpdate(fElapsedTime : float) : bool
+}
+
+Interface PhysicsComponent {
+	+ {abstract} Update(object : GameObject &, pge : const olc::PixelGameEngine &, world  : World &) : void
+}
+Interface GraphicsComponent{
+	+ {abstract} Update(object : GameObject &, pge : olc::PixelGameEngine &) : void
+}
+Interface InputComponent{
+	+ {abstract} Update(object : GameObject &, pge : const olc::PixelGameEngine &, world  : World &) : void
+}
+
+class BallInputComponent {
+	+ Update(ball : GameObject &, pge : olc::PixelGameEngine &, world : World &) : void
+}
+
+class BatInputComponent {
+	+ Update(batt : GameObject &, pge : olc::PixelGameEngine &, world : World &) : void
+}
+
+class BallPhysicsComponent {
+	- m_radius : float
+	- m_isOutOfBounds : bool
+	---
+	- CircleVsRect(ballPos : const olc::vf2d, rectPos : const olc::vf2d, rectSize : const olc::vf2d, contactPoint : olc::vf2d) : bool
+	- ContactNormal(point : const old::v2d &, rectangle : const olc::vf2d &, rectSize : const olc::vf2d &) : olc::vf2d
+	- Roll(gameObject : GameObject &) : void
+	- Reset(gameObject : GameObject &, pos : const olc::vf2d &) : void
+	+ Update(object : GameObject &, pge : const olc::PixelGameEngine &, world  : World &) : void
+}
+
+class BatPhysicsComponent {
+	+ Update(bat : GameObject &, pde : const olc::PixelGameEngine &, world : World &) : void
+}
+
+class BallGraphicsComponent {
+	- m_sprite : olc::Sprite
+	- m_tileSize : olc::vi2d
+	---
+	+ Update(ball : GameObject &, pge : olc:PixelGameEngine, world : World &) : void
+}
+
+class BatGraphicsComponent {
+	- m_sprite : olc::Sprite
+	- m_tileSize : olc::vi2d
+	---
+	+ Update(bat : GameObject &, pge : olc::PixelGameEngine &, world : World &) : void
+}
+
+class GameObject {
+	- m_pInput : InputComponent *
+	- m_pPhysics : PhysicsComponent *
+	- m_pGraphics : GraphicsComponent *
+	+ m_position : olc::vf2d
+	+ m_velocity : olcv::f2d
+	+ m_size : olc::vi2d
+	---
+	+ GameObject(input : InputComponent *, pysics : PhysicsComponent *, graphics : GraphicsComponent *)
+	+ Update(pge : olc::PixelGameEngine *, world : World *) : void
+	+ Draw(pge : olcPixelGameEngine) : void
+}
+
+class World {
+	+ {static} WORLD_WIDTH : constexpr size_t
+	+ {static} WORLD_HIGHT : constexpr size_t
+	- m_gameEngine : olc::PixelGameEngine *
+	- m_tileSprite : olc::Sprite
+	- m_breakableTileSprite : olcSprite 
+	+ m_height : size_t
+	+ m_width : size_t
+	- m_tileMap : std::vector<int>
+	- m_blockSize : const olc::vi2d
+	---
+	+ World()
+	+ World(pgm : olc::PixelGameEngine &)
+	+ Update(elapsedTime : float) : void
+	+ Draw() : void
+	+ operator[](index : const size_type) : int &
+}
+
+' Relationships
+
+PixelGameEngine <|- Breakout
+
+GameObject --> PhysicsComponent
+GameObject -->  GraphicsComponent
+GameObject --> InputComponent
+
+GraphicsComponent <|.. BallGraphicsComponent 
+GraphicsComponent <|.. BatGraphicsComponent
+
+
+PhysicsComponent <|..  BallPhysicsComponent
+PhysicsComponent <|..  BatPhysicsComponent
+
+InputComponent <|.. BallInputComponent
+InputComponent <|.. BatInputComponent
+
+Breakout "1" *-- "...n"GameObject
+
+@enduml
